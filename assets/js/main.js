@@ -74,13 +74,79 @@ let swiperCertificate = new Swiper(".certificate__container", {
 });
 
 /*=============== EMAIL JS ===============*/
+const contactForm = document.getElementById('contact-form'),
+      contactName = document.getElementById('contact-name'),
+      contactEmail = document.getElementById('contact-email'),
+      contactOpinion = document.getElementById('contact-opinion'),
+      contactMassage = document.getElementById('contact-massage')
 
+const sendEmail = (e) =>{
+  e.preventDefault()
+
+  // Check if the field has a value
+  if(contactName.value === '' || contactEmail.value === '' || contactOpinion.value === ''){
+    // Add and remove color
+    contactMassage.classList.remove('color-blue')
+    contactMassage.classList.add('color-red')
+
+    // Show message
+    contactMassage.textContent = 'Write all the input fields 📩'
+
+  }else{
+    // serviceID - templateID - #form - publicKey
+    emailjs.sendForm('service_g5m98v6','template_oskquqd','#contact-form','OS-khpSrbjjcu--RT')
+      .then(() =>{
+        // Show message and add color
+        contactMassage.classList.add('color-blue')
+        contactMassage.textContent = 'Message sent ✅'
+
+        // Remove message after five seconds
+        setTimeout(() =>{
+          contactMassage.textContent = ''
+        }, 5000)
+      }, (error) =>{
+        alert('OOPS! Something has failed...', error)
+      })
+    
+    // To clear the input field
+    contactName.value = ''
+    contactEmail.value = ''
+    contactOpinion.value = ''
+    
+  }
+}
+
+contactForm.addEventListener('submit', sendEmail)
 
 /*=============== SCROLL SECTIONS ACTIVE LINK ===============*/
+const sections = document.querySelectorAll('section[id]')
+    
+const scrollActive = () =>{
+  	const scrollDown = window.scrollY
 
+	sections.forEach(current =>{
+		const sectionHeight = current.offsetHeight,
+			  sectionTop = current.offsetTop - 58,
+			  sectionId = current.getAttribute('id'),
+			  sectionsClass = document.querySelector('.nav__menu a[href*=' + sectionId + ']')
+
+		if(scrollDown > sectionTop && scrollDown <= sectionTop + sectionHeight){
+			sectionsClass.classList.add('active-link')
+		}else{
+			sectionsClass.classList.remove('active-link')
+		}                                                    
+	})
+}
+window.addEventListener('scroll', scrollActive)
 
 /*=============== SHOW SCROLL UP ===============*/ 
-
+const scrollUp = () =>{
+	const scrollUp = document.getElementById('scroll-up')
+    // When the scroll is higher than 350 viewport height, add the show-scroll class to the a tag with the scrollup class
+	this.scrollY >= 350 ? scrollUp.classList.add('show-scroll')
+						: scrollUp.classList.remove('show-scroll')
+}
+window.addEventListener('scroll', scrollUp)
 
 /*=============== DARK LIGHT THEME ===============*/ 
 
