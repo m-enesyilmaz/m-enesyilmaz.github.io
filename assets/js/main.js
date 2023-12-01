@@ -66,6 +66,7 @@ let swiperProjects = new Swiper(".projects__container", {
 /*=============== SWIPER CERTIFICATES ===============*/
 let swiperCertificate = new Swiper(".certificate__container", {
   grabCursor: true,
+  keyboard: true,
   
   navigation: {
     nextEl: ".swiper-button-next",
@@ -188,4 +189,18 @@ const scrollHeader = () =>{
 window.addEventListener('scroll', scrollHeader)
 
 /*=============== SCROLL REVEAL ANIMATION ===============*/
+const sr = ScrollReveal({
+  origin: 'top',
+  distance: '60px',
+  duration: 2500,
+  delay: 400,
+  // reset: true  /* Animations repeat */
+})
 
+sr.reveal('.home__data, .projects__container')
+sr.reveal('.home__info div', {delay: 600, origin: 'bottom', interval: 100})
+sr.reveal('.skills__content:nth-child(1)', {origin: 'left'})
+sr.reveal('.skills__content:nth-child(2)', {origin: 'right'})
+sr.reveal('.skills__content:nth-child(3)', {origin: 'left'})
+sr.reveal('.skills__content:nth-child(4)', {origin: 'right'})
+sr.reveal('.qualification__content', {interval: 100})
