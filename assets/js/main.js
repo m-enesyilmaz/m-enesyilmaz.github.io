@@ -95,7 +95,7 @@ const sendEmail = (e) =>{
 
   }else{
     // serviceID - templateID - #form - publicKey
-    emailjs.sendForm('service_g5m98v6','template_oskquqd','#contact-form','OS-khpSrbjjcu--RT')
+      emailjs.sendForm('service_g5m98v6','template_oskquqd','#contact-form','OS-khpSrbjjcu--RT')
       .then(() =>{
         // Show message and add color
         contactMassage.classList.add('color-blue')
@@ -192,7 +192,7 @@ window.addEventListener('scroll', scrollHeader)
 const sr = ScrollReveal({
   origin: 'top',
   distance: '60px',
-  duration: 2500,
+  duration: 1500,
   delay: 400,
   // reset: true  /* Animations repeat */
 })
