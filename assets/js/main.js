@@ -74,7 +74,44 @@ let swiperCertificate = new Swiper(".certificate__container", {
   },
 });
 
+
+/*=============== NOTIFICATION ===============*/
+// Creates a dynamic message box
+const showMessage = (message, type = 'info') => {
+  // First remove the old message if there is one
+  const existingMsg = document.getElementById('dynamic-message');
+  if (existingMsg) existingMsg.remove();
+
+  // Create new message box
+  const msg = document.createElement('div');
+  msg.id = 'dynamic-message';
+  msg.textContent = message;
+
+  // Color by style
+  if (type === 'success') msg.style.color = 'green';
+  else if (type === 'error') msg.style.color = 'red';
+  else msg.style.color = 'black';
+
+  msg.style.fontWeight = 'bold';
+  msg.style.marginTop = '10px';
+
+  // Add below the form
+  const form = document.getElementById('contact-form');
+  if (form) {
+    form.appendChild(msg);
+  }
+
+  // Remove after 2.5 seconds
+  setTimeout(() => {
+    msg.remove();
+  }, 2500);
+};
+
+
 /*=============== EMAIL JS ===============*/
+// publicKey
+emailjs.init('OS-khpSrbjjcu--RT');
+
 const contactForm = document.getElementById('contact-form'),
       contactName = document.getElementById('contact-name'),
       contactEmail = document.getElementById('contact-email'),
@@ -86,33 +123,23 @@ const sendEmail = (e) =>{
 
   // Check if the field has a value
   if(contactName.value === '' || contactEmail.value === '' || contactOpinion.value === ''){
-    // Add and remove color
-    contactMassage.classList.remove('color-blue')
-    contactMassage.classList.add('color-red')
-
     // Show message
-    contactMassage.textContent = 'Write all the input fields 📩'
+    showMessage('Write all the input fields 📩', 'error');
 
   }else{
-    // serviceID - templateID - #form - publicKey
-      emailjs.sendForm('service_g5m98v6','template_oskquqd','#contact-form','OS-khpSrbjjcu--RT')
+    // serviceID - templateID - #form
+      emailjs.sendForm('service_g5m98v6','template_oskquqd','#contact-form')
       .then(() =>{
-        // Show message and add color
-        contactMassage.classList.add('color-blue')
-        contactMassage.textContent = 'Message sent ✅'
+        showMessage('Message sent ✅', 'success');
 
-        // Remove message after five seconds
-        setTimeout(() =>{
-          contactMassage.textContent = ''
-        }, 5000)
-      }, (error) =>{
-        alert('OOPS! Something has failed...', error)
-      })
-    
-    // To clear the input field
-    contactName.value = ''
-    contactEmail.value = ''
-    contactOpinion.value = ''
+        // Clear the input field);
+        contactName.value = ''
+        contactEmail.value = ''
+        contactOpinion.value = ''
+        }, (error) =>{
+        showMessage('OOPS! Something has failed ❌', 'error');
+        console.log('EmailJS FAILED...', error);
+      });
     
   }
 }
